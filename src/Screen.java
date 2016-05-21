@@ -26,6 +26,30 @@ public abstract class Screen
 		g.setColor(Color.RED);
 	}
 	
+	public GameState getState() {
+		return state;
+	}
+
+	public void setState(GameState state) {
+		this.state = state;
+	}
+
+	public int getWidth() {
+		return width;
+	}
+
+	public void setWidth(int width) {
+		this.width = width;
+	}
+
+	public int getHeight() {
+		return height;
+	}
+
+	public void setHeight(int height) {
+		this.height = height;
+	}
+
 	public void start(){}
 	public abstract void render(Graphics g);
 	public abstract void update();

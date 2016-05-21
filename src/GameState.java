@@ -1,20 +1,24 @@
+import java.util.ArrayList;
+
 
 public class GameState
 {	
-	private Screen currentScreen;
-	private int width, height;
+	private ArrayList<Screen> screens;
+	private int width, height, index;
 
 	public GameState(int width, int height) {
 		this.width = width;
 		this.height = height;
+		index = 0;
+		screens = new ArrayList<Screen>();
 	}
 
 	public Screen currentActiveScreen() {
-		return currentScreen;
+		return screens.get(index);
 	}
 	
-	public void setCurrentScreen(Screen s){
-		currentScreen = s;
+	public void addScreen(Screen s){
+		screens.add(s);
 	}
 
 	public int getWidth() {
@@ -31,6 +35,14 @@ public class GameState
 
 	public void setHeight(int height) {
 		this.height = height;
+	}
+
+	public int getIndex() {
+		return index;
+	}
+
+	public void setIndex(int index) {
+		this.index = index;
 	}
 	
 	
