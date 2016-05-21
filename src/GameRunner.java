@@ -36,31 +36,28 @@ public class GameRunner extends JFrame implements WindowListener, KeyListener, M
 	private ConcurrentLinkedQueue<Integer> queuedFPSChanges = new ConcurrentLinkedQueue<Integer>();
 	
 	private GameState state;
-	
-//	public void run(String[] args) {
-//        try {
-//			sharedInstance.init();
-//		}
-//		catch (Exception ex) {
-//			ex.printStackTrace();
-//			sharedInstance.exit();
-//		}
-//	}
     
     public void entryRun(){
-    	try {
-			init();
-		} catch (Exception e) {
-			e.printStackTrace();
-			exit();
-		}
+    	//this delay seems to make things look better on start!
+    	paintScreen();
+		javax.swing.Timer timer = new javax.swing.Timer(10, new ActionListener() { 
+			public void actionPerformed(ActionEvent e) {
+				createThread();
+				startThread();
+			}});
+		timer.setRepeats(false);
+		timer.start();
     }
 	
-	public GameRunner(GameState gs) {
+	public GameRunner() {
 		super(GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice().getDefaultConfiguration());
 		setIgnoreRepaint(true);
         makeMouseInvisible(false);
-        state = gs;
+        try {
+			init();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
     
     public void makeMouseInvisible(boolean inv)
@@ -133,7 +130,7 @@ public class GameRunner extends JFrame implements WindowListener, KeyListener, M
 		createBufferStrategy(2);
 		strategy = getBufferStrategy();
 		
-//		state = new GameState(desiredWidth, desiredHeight);
+		state = new GameState(desiredWidth, desiredHeight);
 		
 		//Add action all of the listeners
 		addKeyListener(this);
@@ -141,15 +138,6 @@ public class GameRunner extends JFrame implements WindowListener, KeyListener, M
 		addMouseListener(this);
 		addMouseMotionListener(this);
 		
-		//this delay seems to make things look better on start!
-		paintScreen();
-		javax.swing.Timer timer = new javax.swing.Timer(10, new ActionListener() { 
-			public void actionPerformed(ActionEvent e) {
-				createThread();
-				startThread();
-			}});
-		timer.setRepeats(false);
-		timer.start();
 	}
 	
 	
@@ -381,11 +369,6 @@ public class GameRunner extends JFrame implements WindowListener, KeyListener, M
 		fps = newFPS;
 		period = (long)((1000.0/fps) * 1000000L);
 	}
-	
-
-	public void setState(GameState state) {
-		this.state = state;
-	}
 
 	//tells the current screen about a key event
 	private void doKey(KeyEvent e) {
@@ -487,5 +470,13 @@ public class GameRunner extends JFrame implements WindowListener, KeyListener, M
 	public synchronized boolean isRunning()
 	{
 		return thread != null && shouldStop == false;
+	}
+
+	public GameState getGameState() {
+		return state;
+	}
+
+	public void setState(GameState state) {
+		this.state = state;
 	}
 }

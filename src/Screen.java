@@ -1,8 +1,9 @@
-import java.awt.*;
-import java.awt.event.*;
-import java.awt.geom.*;
-import java.io.IOException;
-import java.io.InputStream;
+import java.awt.Color;
+import java.awt.FontMetrics;
+import java.awt.Graphics;
+import java.awt.event.KeyEvent;
+import java.awt.geom.Point2D;
+import java.awt.geom.Rectangle2D;
 
 public abstract class Screen
 {
@@ -22,6 +23,7 @@ public abstract class Screen
 
 
 		g.drawString(text, (int)(x - rect.getWidth()/2), (int)(y + rect.getHeight() / 2));
+		g.setColor(Color.RED);
 	}
 	
 	public void start(){}
